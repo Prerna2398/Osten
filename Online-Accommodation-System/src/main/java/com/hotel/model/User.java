@@ -1,14 +1,17 @@
 package com.hotel.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import org.joda.time.LocalDate;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -16,24 +19,49 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(columnDefinition="varchar(10)")
+    @GeneratedValue(generator = "generator")
+    @GenericGenerator(name = "generator", 
+      parameters = @Parameter(name = "prefix", value = "U"), 
+      strategy = "com.hotel.IdGenerator.MyGenerator")
 	private String uid;
 	@NotNull
 	private String fname;
 	@NotNull
+	@Column
 	private String lname;
 	@NotNull
-	@Pattern(regexp = ".+@.+\\..+", message = "Wrong email!")
-	private String email;
+	@Column
+	private String SecurityQuestion;
 	@NotNull
-	private String password;
+	@Column
+	private String Answer;
 	@NotNull
-	private int phone_no;
-	@NotNull
+	@Column
 	private String Gender;
 	@NotNull
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private LocalDate Date;
+	@Column
+	private String BDate;
+	@NotNull
+	@Pattern(regexp = ".+@.+\\..+", message = "Wrong email!")
+	@Column(unique=true)
+	private String email;
+	@NotNull
+	@Column
+	@Pattern(regexp ="^(?=.*\\d).{8,13}$")
+	private String password;
+	@NotNull
+	@Column(unique=true,length=10)
+	private double phone_no;
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 	public String getUid() {
 		return uid;
@@ -41,6 +69,18 @@ public class User {
 
 	public void setUid(String uid) {
 		this.uid = uid;
+	}
+
+	public String getSecurityQuestion() {
+		return SecurityQuestion;
+	}
+
+	public void setSecurityQuestion(String securityQuestion) {
+		SecurityQuestion = securityQuestion;
+	}
+
+	public void setBDate(String bDate) {
+		BDate = bDate;
 	}
 
 	public String getFname() {
@@ -59,6 +99,14 @@ public class User {
 		this.lname = lname;
 	}
 
+	public String getAnswer() {
+		return Answer;
+	}
+
+	public void setAnswer(String answer) {
+		Answer = answer;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -67,19 +115,11 @@ public class User {
 		this.email = email;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public int getPhone_no() {
+	public double getPhone_no() {
 		return phone_no;
 	}
 
-	public void setPhone_no(int phone_no) {
+	public void setPhone_no(double phone_no) {
 		this.phone_no = phone_no;
 	}
 
@@ -91,12 +131,8 @@ public class User {
 		Gender = gender;
 	}
 
-	public LocalDate getDate() {
-		return Date;
-	}
-
-	public void setDate(LocalDate date) {
-		Date = date;
+	public String getBDate() {
+		return BDate;
 	}
 
 }

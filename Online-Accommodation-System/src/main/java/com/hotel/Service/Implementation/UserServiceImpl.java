@@ -11,7 +11,6 @@ import com.hotel.DAO.UserDao;
 import com.hotel.model.User;
 
 @Service
-@Transactional
 public class UserServiceImpl implements UserService {
 
 	@Autowired
@@ -42,5 +41,11 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public void update(String id) {
 		userDao.update(id);
+	}
+
+	@Override
+	public boolean verify(String email, String password) {
+		return userDao.verify(email,password);
+		
 	}
 }

@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	Result is :${result}
+	Result is :${message}
 </body>
 </html>

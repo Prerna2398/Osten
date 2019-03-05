@@ -1,8 +1,6 @@
 package com.hotel.model;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -13,7 +11,6 @@ import org.joda.time.LocalDate;
 @Table(name="BOOKING-HISTORY")
 public class BookingHistory {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String bid;
 	@NotNull
 	private String uid;

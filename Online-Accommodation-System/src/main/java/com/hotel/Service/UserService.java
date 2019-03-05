@@ -10,4 +10,5 @@ public interface UserService {
 	public User viewUser(String id);
 	public List<User> viewAll();
 	public void update(String id);
+	public boolean verify(String email,String password);
 }

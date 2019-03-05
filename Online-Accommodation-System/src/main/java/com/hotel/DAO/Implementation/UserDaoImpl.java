@@ -2,7 +2,14 @@ package com.hotel.DAO.Implementation;
 
 import java.util.List;
 
+import javax.persistence.criteria.Root;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.hibernate.query.criteria.internal.CriteriaBuilderImpl;
+import org.hibernate.query.criteria.internal.CriteriaQueryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -13,28 +20,62 @@ import com.hotel.model.User;
 public class UserDaoImpl implements UserDao {
 
 	@Autowired
-	private SessionFactory session;
+	private SessionFactory sessionFactory;
 
 	public void add(User user) {
-		session.getCurrentSession().save(user);
+		Session currentSession = sessionFactory.getCurrentSession();
+		currentSession.saveOrUpdate(user);
 	}
 
 	public void remove(String id) {
-		session.getCurrentSession().remove(id);
+		sessionFactory.getCurrentSession().remove(id);
 
 	}
 
+	public long count() {
+		Session currentSession = sessionFactory.getCurrentSession();
+		CriteriaBuilderImpl builder = (CriteriaBuilderImpl) currentSession.getCriteriaBuilder();
+		CriteriaQueryImpl<Long> criteriaQuery = (CriteriaQueryImpl<Long>) builder.createQuery(Long.class);
+		Root<User> root = criteriaQuery.from(User.class);
+		criteriaQuery.select(builder.count(root));
+		Query<Long> query = currentSession.createQuery(criteriaQuery);
+		long count = query.getSingleResult();
+		System.out.println("Count = " + count);
+
+		return count;
+	}
+
 	public User viewUser(String id) {
-		return (User) session.getCurrentSession().get(User.class, id);
+		return (User) sessionFactory.getCurrentSession().get(User.class, id);
 	}
 
 	public List<User> viewAll() {
 
-		return (List<User>) session.getCurrentSession().createQuery("from User").list();
+		return (List<User>) sessionFactory.getCurrentSession().createQuery("from User").list();
 	}
 
 	public void update(String id) {
-		session.getCurrentSession().update(id);
+		sessionFactory.getCurrentSession().update(id);
+	}
+
+	@Override
+	public boolean verify(String email, String password) {
+		try {
+			Session currentSession = sessionFactory.getCurrentSession();
+			Query query=currentSession.createQuery("Select user.userId from User user where user.email=:email and user.password=:password");
+			if(query.getParameter(1)!=null)
+			{
+				return true;
+			}
+		} catch (HibernateException e) {
+			if (sessionFactory.getCurrentSession().getTransaction() != null) {
+				sessionFactory.getCurrentSession().getTransaction().rollback();
+				System.out.println("User Not Registered");
+			}
+			return false;
+		}
+		return false;
+
 	}
 
 }

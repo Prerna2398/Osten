@@ -1,12 +1,12 @@
 <html>
 <body>
-	<form action="add">
-
-
-		<input type="text" name="t1"><br>
-		 <input type="text"name="t2"><br>
-		 <input type="submit">
+	
+	<form action="signUpForm">
+		 <input type="submit" value ="SignUp">
 	</form>
+	<form action="loginForm">
+		 <input type="submit" value ="Login">
+	</form> 
 
 </body>
 </html>
