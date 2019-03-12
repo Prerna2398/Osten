@@ -3,6 +3,7 @@ package com.hotel.Service;
 import java.util.List;
 
 import com.hotel.model.Address;
+import com.hotel.model.Hotel;
 
 public interface AddressService {
 	public void add(Address address);
@@ -16,4 +17,6 @@ public interface AddressService {
 	public Address view(String id);
 
 	public List<Address> viewAll();
+	
+	public List<Hotel> searchByCity(String city);
 }

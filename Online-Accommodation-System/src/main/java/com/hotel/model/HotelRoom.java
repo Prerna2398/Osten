@@ -1,75 +1,66 @@
 package com.hotel.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+enum RoomType {
+	SAC, DAC, SNAC, DNAC
+}
+
 @Entity
-@Table(name="HOTEL_ROOM")
+@Table(name = "HOTEL_ROOM")
 public class HotelRoom {
-	
+
 	@Id
 	private String roomId;
-	private int NSAC;
-	private int NDAC;
-	private int NSNAC;
-	private int NDNAC;
-	private int PSAC;
-	private int PDAC;
-	private int PSNAC;
-	private int PDNAC;
-	public int getPSNAC() {
-		return PSNAC;
-	}
-	public void setPSNAC(int pSNAC) {
-		PSNAC = pSNAC;
-	}
-	public int getPDNAC() {
-		return PDNAC;
-	}
-	public void setPDNAC(int pDNAC) {
-		PDNAC = pDNAC;
-	}
+	@Column
+	private int hid;
+	@Column
+	private RoomType roomType;
+	@Column
+	private int number;
+	@Column
+	private float price;
+
 	public String getRoomId() {
 		return roomId;
 	}
+
 	public void setRoomId(String roomId) {
 		this.roomId = roomId;
 	}
-	public int getNSAC() {
-		return NSAC;
+
+	public int getHid() {
+		return hid;
 	}
-	public void setNSAC(int nSAC) {
-		NSAC = nSAC;
+
+	public void setHid(int hid) {
+		this.hid = hid;
 	}
-	public int getNDAC() {
-		return NDAC;
+
+	public RoomType getRoomType() {
+		return roomType;
 	}
-	public void setNDAC(int nDAC) {
-		NDAC = nDAC;
+
+	public void setRoomType(RoomType roomType) {
+		this.roomType = roomType;
 	}
-	public int getNSNAC() {
-		return NSNAC;
+
+	public int getNumber() {
+		return number;
 	}
-	public void setNSNAC(int nSNAC) {
-		NSNAC = nSNAC;
+
+	public void setNumber(int number) {
+		this.number = number;
 	}
-	public int getNDNAC() {
-		return NDNAC;
+
+	public float getPrice() {
+		return price;
 	}
-	public void setNDNAC(int nDNAC) {
-		NDNAC = nDNAC;
-	}
-	public int getPSAC() {
-		return PSAC;
-	}
-	public void setPSAC(int pSAC) {
-		PSAC = pSAC;
-	}
-	public int getPDAC() {
-		return PDAC;
-	}
-	public void setPDAC(int pDAC) {
-		PDAC = pDAC;
+
+	public void setPrice(float price) {
+		this.price = price;
 	}
 }

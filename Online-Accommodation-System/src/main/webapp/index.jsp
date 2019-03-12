@@ -6,7 +6,13 @@
 	</form>
 	<form action="loginForm">
 		 <input type="submit" value ="Login">
+	</form>
+	
+	
+	<form action="hotelSearch">
+		 <input type="submit" value ="Search">
 	</form> 
+	 
 
 </body>
 </html>
