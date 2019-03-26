@@ -77,11 +77,10 @@ public class AddressDaoImpl implements AddressDao {
 		
 		System.out.println("Total Number Of Records : " + list.size());
 
-		Iterator<Hotel> itr = list.iterator();
-		while (itr.hasNext()) {
-			Hotel ht = (Hotel) itr.next();
-			System.out.println(ht);
-		}
+		/*
+		 * Iterator<Hotel> itr = list.iterator(); while (itr.hasNext()) { Hotel ht =
+		 * (Hotel) itr.next(); System.out.println(ht); }
+		 */
 		
 		return list;
 	}

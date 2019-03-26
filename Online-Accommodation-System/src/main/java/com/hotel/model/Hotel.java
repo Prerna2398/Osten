@@ -1,6 +1,7 @@
 package com.hotel.model;
 
 import java.util.Arrays;
+import java.util.Base64;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -49,11 +51,26 @@ public class Hotel {
 	@Column(columnDefinition = "varchar(10)")
 	private boolean WiFi;
 	@Lob
+	@Column
 	private byte[] image;
 	@OneToOne
 	@JoinColumn(name = "aid")
 	private Address add;
+	
+    private String base64Image;
+    
+    @Transient
+    public String getBase64Image() {
+        base64Image = Base64.getEncoder().encodeToString(this.image);
+        return base64Image;
+    }
+ 
+    public void setBase64Image(String base64Image) {
+        this.base64Image = base64Image;
+    }
 
+	
+	
 	public int getHid() {
 		return hid;
 	}
@@ -134,6 +151,7 @@ public class Hotel {
 		WiFi = wiFi;
 	}
 
+	@Lob
 	public byte[] getImage() {
 		return image;
 	}
