@@ -1,18 +1,13 @@
 package com.hotel.model;
 
-import java.util.Arrays;
-import java.util.Base64;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -50,27 +45,12 @@ public class Hotel {
 	@NotNull
 	@Column(columnDefinition = "varchar(10)")
 	private boolean WiFi;
-	@Lob
 	@Column
-	private byte[] image;
+	private String imageURL;
 	@OneToOne
 	@JoinColumn(name = "aid")
 	private Address add;
-	
-    private String base64Image;
-    
-    @Transient
-    public String getBase64Image() {
-        base64Image = Base64.getEncoder().encodeToString(this.image);
-        return base64Image;
-    }
- 
-    public void setBase64Image(String base64Image) {
-        this.base64Image = base64Image;
-    }
 
-	
-	
 	public int getHid() {
 		return hid;
 	}
@@ -151,13 +131,12 @@ public class Hotel {
 		WiFi = wiFi;
 	}
 
-	@Lob
-	public byte[] getImage() {
-		return image;
+	public String getImageURL() {
+		return imageURL;
 	}
 
-	public void setImage(byte[] image) {
-		this.image = image;
+	public void setImageURL(String imageURL) {
+		this.imageURL = imageURL;
 	}
 
 	public Address getAdd() {
@@ -172,7 +151,8 @@ public class Hotel {
 	public String toString() {
 		return "Hotel [hid=" + hid + ", hname=" + hname + ", rating=" + rating + ", dfcc=" + dfcc + ", gym=" + gym
 				+ ", Sp=" + Sp + ", Spa=" + Spa + ", lounge=" + lounge + ", restaurant=" + restaurant + ", WiFi=" + WiFi
-				+ ", image=" + Arrays.toString(image) + ", add=" + add + "]";
+				+ ", imageURL=" + imageURL + ", add=" + add + "]";
 	}
+
 
 }

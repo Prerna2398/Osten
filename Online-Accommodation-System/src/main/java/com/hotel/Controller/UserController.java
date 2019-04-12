@@ -1,8 +1,10 @@
 package com.hotel.Controller;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+import javax.script.ScriptException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.hotel.Service.UserService;
@@ -27,76 +30,83 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-
-	@RequestMapping("/index")
-	public String setupForm(Map<String, Object> map) {
-		User user = new User();
-		map.put("user", user);
-		map.put("userList", userService.viewAll());
-		return "user";
-	}
-	
 	@RequestMapping("/loginForm")
-	public ModelAndView loginForm()
-	{
-		
-		ModelAndView mv =new ModelAndView();
+	@ResponseBody
+	public ModelAndView loginForm() {
+
+		ModelAndView mv = new ModelAndView();
 		mv.setViewName("Login");
 		mv.addObject("result");
-		
+
 		return mv;
 	}
-	
+
 	@RequestMapping("/login")
-	public ModelAndView login(@ModelAttribute("user")User user)
-	{
-		
-		ModelAndView mv =new ModelAndView();
-		if(userService.verify(user.getEmail(),user.getPassword())) {
+	public ModelAndView login(@ModelAttribute("user") User user)
+			throws ScriptException, IOException, NoSuchMethodException {
+
+		ModelAndView mv = new ModelAndView();
+		if (userService.verify(user.getEmail(), user.getPassword())) {
 			mv.setViewName("display");
-			mv.addObject("message","Logged in successfully");
+			mv.addObject("messageLS", user.getEmail());
+			mv.addObject("email",user.getEmail());
+			mv.addObject("password",user.getPassword());
+			/*
+			 * ScriptEngineManager manager = new ScriptEngineManager(); ScriptEngine engine
+			 * = manager.getEngineByName("JavaScript"); // read script file
+			 * //engine.eval(Files.newBufferedReader(Paths.get("login.js"),
+			 * StandardCharsets.UTF_8)); engine.eval("login.js");
+			 * 
+			 * Invocable inv = (Invocable) engine; // call function from script file
+			 * inv.invokeFunction("LoginUser");
+			 */
+		} else {
+			mv.setViewName("Login");
+			mv.addObject("message", "Enter valid credentials or Sign Up if new user !");
 		}
-		else
-		{
-			mv.setViewName("display");
-			mv.addObject("message","User not registered. SignUp to continue.");
-		}
-			
-		
 		return mv;
 	}
-	
-	  @ModelAttribute("User")
-	    public User setSignUpForm() {
-	        return new User();
-	    }
-	
+
+	@RequestMapping("/logout")
+	public ModelAndView logoutUser() {
+
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("index");
+		mv.addObject("message", "Logged out successfully");
+
+		return mv;
+	}
+
+	@ModelAttribute("User")
+	public User setSignUpForm() {
+		return new User();
+	}
+
 	@RequestMapping("/signUpForm")
-	public ModelAndView signUp()
-	{
-		ModelAndView mv =new ModelAndView();
+	public ModelAndView signUp() {
+		ModelAndView mv = new ModelAndView();
 		mv.setViewName("SignUp");
 		mv.addObject("result");
-		
+
 		return mv;
 	}
-	
+
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 
-	   SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-	   dateFormat.setLenient(false);
-	   binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		dateFormat.setLenient(false);
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
 	}
-	
+
 	@PostMapping("/register")
-	public ModelAndView registerUser(@ModelAttribute("user") User user)
-	{
+
+	public ModelAndView registerUser(@ModelAttribute("user") User user) {
 		userService.add(user);
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("display");
+		mv.setViewName("index");
 		mv.addObject("message", "User SignUp successfully.");
-		
+
 		return mv;
 	}
 
@@ -110,7 +120,7 @@ public class UserController {
 			userResult = user;
 		}
 		if (action.toLowerCase() == "edit") {
-			userService.update(user.getUid()); 
+			userService.update(user.getUid());
 			userResult = user;
 		}
 		if (action.toLowerCase() == "search") {

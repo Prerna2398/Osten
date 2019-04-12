@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
 	public void update(String id) {
 		userDao.update(id);
 	}
-
+	@Transactional
 	@Override
 	public boolean verify(String email, String password) {
 		return userDao.verify(email,password);

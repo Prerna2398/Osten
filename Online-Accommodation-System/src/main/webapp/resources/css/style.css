@@ -51,6 +51,10 @@
 	color: rgba(82, 82, 84, 0.4);
 }
 
+.booking-form .inputPlaceholder {
+	color: rgba(82, 82, 84, 0.4);
+}
+
 .booking-form .form-control::placeholder {
 	color: rgba(82, 82, 84, 0.4);
 }
@@ -171,4 +175,10 @@
 .booking-form .submit-btn:hover,
 .booking-form .submit-btn:focus {
 	opacity: 0.9;
+}
+.hotelImage{
+	font-family: 'PT Sans', sans-serif;
+	background-image: url('../img/background.jpg');
+	background-size: cover;
+	background-position: center;
 }

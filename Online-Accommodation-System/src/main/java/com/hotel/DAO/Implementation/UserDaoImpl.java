@@ -2,6 +2,7 @@ package com.hotel.DAO.Implementation;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.HibernateException;
@@ -62,11 +63,23 @@ public class UserDaoImpl implements UserDao {
 	public boolean verify(String email, String password) {
 		try {
 			Session currentSession = sessionFactory.getCurrentSession();
-			Query query=currentSession.createQuery("Select user.userId from User user where user.email=:email and user.password=:password");
-			if(query.getParameter(1)!=null)
-			{
+	
+			 //Transaction tx = currentSession.beginTransaction();
+			
+			//tx.commit();
+			Query<User>  query=currentSession.createQuery("from User user where user.email= '"+email+"' and user.password= '"+password+"'");
+			try {
+				User u=query.getSingleResult();
+				if(u!=null)
+			
+					{
 				return true;
+					}
 			}
+			catch(NoResultException ex){
+				return false;
+			}
+			
 		} catch (HibernateException e) {
 			if (sessionFactory.getCurrentSession().getTransaction() != null) {
 				sessionFactory.getCurrentSession().getTransaction().rollback();
@@ -74,6 +87,8 @@ public class UserDaoImpl implements UserDao {
 			}
 			return false;
 		}
+		
+		
 		return false;
 
 	}

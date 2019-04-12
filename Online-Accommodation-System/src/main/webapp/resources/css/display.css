@@ -1,0 +1,30 @@
+.jumbotron{
+	background:rgba(0,0,0,0.1);
+}
+.section {
+	position: relative;
+	height: 100vh;
+}
+
+.section .section-center {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	right: 0;
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+#display {
+	font-family: 'PT Sans', sans-serif;
+	background-image: url('../img/s77.jpg');
+	background-size: cover;
+	background-position: center;
+}
+
+.display-form {
+	background: rgba(0, 0, 0, 0.7);
+	padding: 40px;
+	border-radius: 6px;
+}
+

@@ -1,0 +1,35 @@
+
+body{
+	margin-top:20px;
+	background-image:url('../img/w3.jpg');
+	background-size:cover;
+	background-repeat:no-repeat;
+	background-attachment:fixed;
+	background-height:100%;
+	
+	
+}
+#Contact us
+{
+	
+	padding-top: 50px;
+	padding-bottom: 50px;
+	color: #555;
+}
+# Contact us h1
+{
+	font-size:30px;
+	text-align: center;
+	color: #555 !important;
+	padding-bottom: 10px;
+}
+#
+#icon fa
+{
+	padding-left:30px;
+	color:#007bff;
+}
+#icon button
+{
+	padding-right:10px;
+}
